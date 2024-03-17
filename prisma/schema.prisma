@@ -7,7 +7,7 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
+  provider     = "postgresql"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
@@ -115,7 +115,7 @@ model User {
   Post      Post[]
   Comment   Comment[]
 
-  @@fulltext([name])
+//   @@fulltext([name])
 }
 
 model VerificationToken {
@@ -135,7 +135,7 @@ model Tag {
   posts           Post[]
   subscribers     User[]
 
-  @@fulltext([name, description])
+//   @@fulltext([name, description])
 }
 
 model PollOption {
@@ -198,9 +198,9 @@ model Post {
   Comment     Comment[]
 
   @@index([userId])
-  @@fulltext([body])
-  @@fulltext([title])
-  @@fulltext([body, title])
+//   @@fulltext([body])
+//   @@fulltext([title])
+//   @@fulltext([body, title])
 }
 
 model Link {
@@ -239,7 +239,7 @@ model Comment {
   postId String?
 
   children      Comment[]      @relation("comment_children")
-  parent        Comment?       @relation("comment_children", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  parent        Comment?       @relation("comment_children", fields: [parentId], references: [id], onDelete: Restrict, onUpdate: Restrict)
   parentId      String?
   notifications Notification[]
 
@@ -249,5 +249,5 @@ model Comment {
   @@index([userId])
   @@index([parentId])
   @@index([postId])
-  @@fulltext([body])
+//   @@fulltext([body])
 }
